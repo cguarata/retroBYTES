@@ -20,8 +20,14 @@ async function main() {
  await connection.query(`DROP TABLE IF EXISTS products_photos`);
  await connection.query(`DROP TABLE IF EXISTS products`);
  await connection.query(`DROP TABLE IF EXISTS users`);
+ await connection.query(`DROP TABLE IF EXISTS chats`);
+ await connection.query(`DROP TABLE IF EXISTS reviews`);
+ await connection.query(`DROP TABLE IF EXISTS buy_sale`);
+ await connection.query(`DROP TABLE IF EXISTS messages`);
+
 
  console.log("Tablas borradas");
+
 
  // creo la tabla usuarios
  await connection.query(`
@@ -118,6 +124,60 @@ async function main() {
          FOREIGN KEY (entry_id) REFERENCES entries(id)
      )
  `);
+
+// creo la tabla chats
+await connection.query(`
+CREATE TABLE chats (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_user INT NOT NULL,
+    id_product INT NOT NULL,
+    deleted DATETIME NULL,
+    FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE,
+	FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
+  )
+`);
+// creo la tabla de reviews
+
+await connection.query(`
+CREATE TABLE reviews (
+  id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id_user int NOT NULL,
+	id_product int NOT NULL,
+  id_reviewer int NOT NULL,
+	content varchar(1000) NOT NULL,
+	valoration int NOT NULL,
+	created DATETIME NOT NULL,
+	updated DATETIME NULL,
+  deleted DATETIME NULL,
+	FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_reviewer) REFERENCES users (id) ON DELETE CASCADE,
+	FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
+  )
+`);
+
+
+// creo la tabla buy_sale
+await connection.query(`
+CREATE TABLE buy_sale (
+  id_user INT NOT NULL,
+  id_product INT NOT NULL UNIQUE,
+  fecha DATETIME NULL,
+  FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
+  )
+`);
+
+
+// creo la tabla messages
+await connection.query(`
+CREATE TABLE messages (
+  id_chat INT NOT NULL,
+  id_user INT NOT NULL,
+  content varchar(500) NOT NULL,
+  date_message DATETIME NOT NULL,
+  FOREIGN KEY (id_chat) REFERENCES chats (id) ON DELETE CASCADE,
+  FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE )
+`);
 
  console.log("Tablas creadas");
 
