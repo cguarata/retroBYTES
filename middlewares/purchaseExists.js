@@ -10,7 +10,7 @@ const purchaseExists = async (req, res, next) => {
 
     const [result] = await connection.query(
       `
-            SELECT sales_id FROM sale WHERE idSale=?`,
+            SELECT sales_id FROM sales WHERE idSale=?`,
       [salesId]
     );
 

@@ -522,8 +522,178 @@
 			]
 		},
 		{
-			"name": "Orders",
-			"item": []
+			"name": "Buy-Sell",
+			"item": [
+				{
+					"name": "proposal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/buy/1/1/proposal",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"buy",
+								"1",
+								"1",
+								"proposal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reserveProduct",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/products/1/request/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"products",
+								"1",
+								"request",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "effectiveSale",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/myproducts/1/1/sold",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"myproducts",
+								"1",
+								"1",
+								"sold"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRequest",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/myproducts/1/requests",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"myproducts",
+								"1",
+								"requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/bookings/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"bookings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/requests/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"requests",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "valuePurchase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5500/ranking_user/1/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5500",
+							"path": [
+								"ranking_user",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Entries",
