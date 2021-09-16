@@ -10,22 +10,18 @@ async function main() {
   try {
     connection = await getDB();
 
- // borrar las tablas existentes
- await connection.query(`DROP TABLE IF EXISTS user_ranking`);
- await connection.query(`DROP TABLE IF EXISTS sales`);
- await connection.query(`DROP TABLE IF EXISTS entries_votes`);
- await connection.query(`DROP TABLE IF EXISTS entries_photos`);
-//  await connection.query(`DROP TABLE IF EXISTS entries`);
-//  await connection.query(`DROP TABLE IF EXISTS products_votes`);
- await connection.query(`DROP TABLE IF EXISTS products_photos`);
- await connection.query(`DROP TABLE IF EXISTS products`);
- await connection.query(`DROP TABLE IF EXISTS categories`);
- await connection.query(`DROP TABLE IF EXISTS users`);
+    // borrar las tablas existentes
+    await connection.query(`DROP TABLE IF EXISTS user_ranking`);
+    await connection.query(`DROP TABLE IF EXISTS sales`);
+    await connection.query(`DROP TABLE IF EXISTS products_photos`);
+    await connection.query(`DROP TABLE IF EXISTS products`);
+    await connection.query(`DROP TABLE IF EXISTS categories`);
+    await connection.query(`DROP TABLE IF EXISTS users`);
 
- console.log("Tablas borradas");
+    console.log("Tablas borradas");
 
- // creo la tabla usuarios
- await connection.query(`
+    // creo la tabla usuarios
+    await connection.query(`
    CREATE TABLE users (
        id INT PRIMARY KEY AUTO_INCREMENT,
        date DATETIME NOT NULL,
@@ -42,17 +38,8 @@ async function main() {
        )
  `);
 
-// creo la tabla categorías
-await connection.query(`
-    CREATE TABLE categories (
-    id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    name ENUM('Informática','Telefonía','Gaming','Video','Audio', 'Memorabilia') NOT NULL
-    );
-`);
-
-   // creo la tabla products
-  
-      await connection.query(`
+    // creo la tabla products
+    await connection.query(`
       CREATE TABLE products (
           id INT PRIMARY KEY AUTO_INCREMENT,
           date DATETIME NOT NULL,
@@ -63,15 +50,14 @@ await connection.query(`
           manufact_date YEAR,
           user_id INT NOT NULL,
           FOREIGN KEY (user_id) REFERENCES users(id),
-          category_id INT UNSIGNED,
-          FOREIGN KEY (category_id) REFERENCES categories(id),
+          category ENUM('Informática','Telefonía','Gaming','Video','Audio', 'Memorabilia') NOT NULL,
           reserved BOOLEAN DEFAULT false,
           sold BOOLEAN DEFAULT false
        )
-`)
+`);
 
     // creo la tabla products_photos
-      await connection.query(`
+    await connection.query(`
       CREATE TABLE products_photos (
         id INT PRIMARY KEY AUTO_INCREMENT,
         uploadDate DATETIME NOT NULL,
@@ -81,75 +67,24 @@ await connection.query(`
         )
    `);
 
-   // creo la tabla products_votes
-      await connection.query(`
-      CREATE TABLE products_votes (
-          id INT PRIMARY KEY AUTO_INCREMENT,
-          date DATETIME NOT NULL,
-          vote TINYINT NOT NULL,
-          product_id INT NOT NULL,
-          FOREIGN KEY (product_id) REFERENCES products(id),
-          user_id INT NOT NULL,
-          FOREIGN KEY (user_id) REFERENCES users(id)
-      )
-    `);
-
-
- // creo la tabla entries
-      await connection.query(`
-      CREATE TABLE entries (
-          id INT PRIMARY KEY AUTO_INCREMENT,
-          date DATETIME NOT NULL,
-          place VARCHAR(1000) NOT NULL,
-          description TEXT,
-          user_id INT NOT NULL,
-          FOREIGN KEY (user_id) REFERENCES users(id)
-          )
-      `);
-
- // creo la tabla entries_votes
- await connection.query(`
-     CREATE TABLE entries_votes (
-         id INT PRIMARY KEY AUTO_INCREMENT,
-         date DATETIME NOT NULL,
-         vote TINYINT NOT NULL,
-         entry_id INT NOT NULL,
-         FOREIGN KEY (entry_id) REFERENCES entries(id),
-         user_id INT NOT NULL,
-         FOREIGN KEY (user_id) REFERENCES users(id)
-     )
- `);
-
- // creo la tabla entries_photos
- await connection.query(`
-     CREATE TABLE entries_photos (
-         id INT PRIMARY KEY AUTO_INCREMENT,
-         uploadDate DATETIME NOT NULL,
-         photo VARCHAR(50),
-         entry_id INT NOT NULL,
-         FOREIGN KEY (entry_id) REFERENCES entries(id)
-     )
- `);
-
-// creo la tabla de ventas
-await connection.query(` 
+    // creo la tabla de ventas
+    await connection.query(` 
       CREATE TABLE sales (
         idSale INT PRIMARY KEY AUTO_INCREMENT,
         userBuyer_id INT NOT NULL,
         FOREIGN KEY (userBuyer_id) REFERENCES users(id),
-        product_id INT NOT NULL,
+        product_id INT NOT NULL,   
         FOREIGN KEY (product_id) REFERENCES products(id),
-        reserveMessage INT NOT NULL,
-        effectiveSale BOOLEAN DEFAULT false,
+        status BOOLEAN,
         timeDelivery DATETIME,
-        placeDelivery VARCHAR(300),
-        sold BOOLEAN DEFAULT false
+        placeDelivery VARCHAR(300)
+  
       );
 
 `);
 
-// creo la tabla de valoración de usuario
-await connection.query(`
+    // creo la tabla de valoración de usuario
+    await connection.query(`
     CREATE TABLE user_ranking(
       id INT PRIMARY KEY AUTO_INCREMENT,
       date_vote DATETIME,
@@ -158,14 +93,14 @@ await connection.query(`
       idSale INT NOT NULL,
       FOREIGN KEY (idSale) REFERENCES sales(idSale),
       vote TINYINT DEFAULT 0
+      
     )
-`)
+`);
 
+    console.log("Tablas creadas");
 
- console.log("Tablas creadas");
-
-//  añado el usuario admin
- await connection.query(`
+    //  añado el usuario admin
+    await connection.query(`
      INSERT INTO users(date, email, password, name, active, role)
      VALUES (
        "${formatDateToDB(new Date())}", 
@@ -176,15 +111,15 @@ await connection.query(`
        "admin");
  `);
 
- //generamos usuarios random
- const users = 10;
+    //generamos usuarios random
+    const users = 10;
 
- for (let index = 0; index < users; index++) {
-   const email = faker.internet.email();
-   const password = faker.internet.password();
-   const nombre = faker.name.findName();
+    for (let index = 0; index < users; index++) {
+      const email = faker.internet.email();
+      const password = faker.internet.password();
+      const nombre = faker.name.findName();
 
-   await connection.query(`
+      await connection.query(`
      INSERT INTO users(date,email,password,name,active)
      VALUES (
        "${formatDateToDB(new Date())}",
@@ -194,78 +129,52 @@ await connection.query(`
        true
      )
      `);
- }
+    }
 
- // añadir nombres categorías
- const categories = 6;
- for (let i = 1; i < categories; i++) {
-   const names = [i];
+    console.log("Ingresadas categorías");
 
-   await connection.query(`
-      INSERT INTO categories (name)
-        VALUES ("${names}")`);
- }
-
- console.log("Ingresadas categorías");
-
- // añadir productos
- const now = new Date();
- const date = formatDateToDB(now);
+    // añadir productos
+    const now = new Date();
+    const date = formatDateToDB(now);
 
     await connection.query(`
-    INSERT INTO products(name, manufact_date, price, place, category_id, user_id, date, description)
+    INSERT INTO products(name, manufact_date, price, place, category, user_id, date, description)
     VALUES 
-    ("IBM PC 5150", "1981", "450", "A Coruña", "1","${random(2, users + 1)}", "${(date)}","${faker.lorem.paragraph()}"),
-    ("Commodore 64", "1982","1050", "Madrid", "1","${random(2, users + 1)}", "${(date)}","${faker.lorem.paragraph()}"),
-    ("Sinclair ZX Spectrum", "1982","170", "Valencia","1", "${random(2, users + 1)}", "${(date)}","${faker.lorem.paragraph()}"),
-    ("Apple II", "1982","980", "Santiago de Compostela","1", "${random(2, users + 1)}", "${(date)}","${faker.lorem.paragraph()}"),
-    ("Commodore Amiga 500", "1987", "1200", "Barcelona","1", "${random(2, users + 1)}" , "${(date)}","${faker.lorem.paragraph()}"),
-    ("MITS Altair 8800", "1975","860", "Valencia", "1","${random(2, users + 1)}", "${(date)}","${faker.lorem.paragraph()}")
+    ("IBM PC 5150", "1981", "450", "A Coruña", "Informática","${random(
+      2,
+      users + 1
+    )}", "${date}","${faker.lorem.paragraph()}"),
+    ("Commodore 64", "1982","1050", "Madrid", "Informática","${random(
+      2,
+      users + 1
+    )}", "${date}","${faker.lorem.paragraph()}"),
+    ("Sinclair ZX Spectrum", "1982","170", "Valencia","Informática", "${random(
+      2,
+      users + 1
+    )}", "${date}","${faker.lorem.paragraph()}"),
+    ("Apple II", "1982","980", "Santiago de Compostela","Informática", "${random(
+      2,
+      users + 1
+    )}", "${date}","${faker.lorem.paragraph()}"),
+    ("Commodore Amiga 500", "1987", "1200", "Barcelona","Informática", "${random(
+      2,
+      users + 1
+    )}" , "${date}","${faker.lorem.paragraph()}"),
+    ("MITS Altair 8800", "1975","860", "Valencia", "Informática","${random(
+      2,
+      users + 1
+    )}", "${date}","${faker.lorem.paragraph()}")
    
     `);
 
-
-
- // introducir varias entradas de entries
-//  const num_entries = 10;
-
-//  for (let index = 0; index < num_entries; index++) {
-//    const now = new Date();
-//    await connection.query(`
-//      INSERT INTO entries (date, place, description, user_id)
-//      VALUES (
-//                  "${formatDateToDB(now)}",
-//                  "${faker.address.city()}",
-//                  "${faker.lorem.paragraph()}",
-//                  ${random(2, users + 1)}
-//      )
-//      `);
-//  }
-
- // introducir varias entradas de entries_votes
-//  const num_votes = 100;
-
-//  for (let index = 0; index < num_votes; index++) {
-//    const now = new Date();
-//    await connection.query(`
-//      INSERT INTO entries_votes (date, vote, entry_id, user_id)
-//      VALUES (
-//                  "${formatDateToDB(now)}",
-//                  "${random(1, 5)}",
-//                  "${random(1, num_entries)}",
-//                  ${random(2, users + 1)}
-//      )
-//      `);
-//  }
-
- console.log("Datos randoms introducidos");
-} catch (error) {
- console.error(error);
-} finally {
- // libero la conexión
- if (connection) connection.release();
- process.exit(0);
-}
+    console.log("Datos randoms introducidos");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    // libero la conexión
+    if (connection) connection.release();
+    process.exit(0);
+  }
 }
 
 main();

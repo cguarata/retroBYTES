@@ -28,7 +28,7 @@ const filterProduct = async (req, res, next) => {
 
     let resultPlusPhotos = [];
 
-    if (results.legth > 0) {
+    if (results.length > 0) {
       const ids = results.map((result) => result.id);
 
       const [photos] = await connection.query(`

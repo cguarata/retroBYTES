@@ -8,14 +8,14 @@ const productExists = async (req, res, next) => {
     const { id } = req.params;
 
     // comprobar si existe la entry
-    const [current] = await connection.query(
+    const [result] = await connection.query(
       `
      SELECT id FROM products WHERE id=?
      `,
       [id]
     );
 
-    if (current.length === 0) {
+    if (result.length === 0) {
       const error = new Error("No existe ningún producto con este id");
       error.httpStatus = 404;
       throw error;

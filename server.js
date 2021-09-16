@@ -2,6 +2,7 @@ require("dotenv").config();
 const path = require("path");
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
 const {
@@ -17,7 +18,6 @@ const {
   filterProduct,
 } = require("./controllers/products");
 
-
 const {
   loginUser,
   newUser,
@@ -30,7 +30,7 @@ const {
   resetUserPassword,
 } = require("./controllers/users");
 
-// controladores compra-venta
+// controladores compra-venta:
 const {
   cancelRequest,
   reservedProduct,
@@ -40,8 +40,6 @@ const {
   listRequests,
   valuePurchase,
 } = require("./controllers/buy_sell");
-
-
 
 const {
   listEntries,
@@ -54,8 +52,6 @@ const {
   voteEntry,
 } = require("./controllers/entries");
 
-
-
 // require de los MIDDLEWARES
 const entryExists = require("./middlewares/entryExists");
 const productExists = require("./middlewares/productExists");
@@ -63,12 +59,15 @@ const isUser = require("./middlewares/isUser");
 const canEdit = require("./middlewares/canEdit");
 const canModify = require("./middlewares/canEdit");
 const userExists = require("./middlewares/userExists");
-const purchaseExists = require("./middlewares/purchaseExists")
+const purchaseExists = require("./middlewares/purchaseExists");
 
 const { PORT, HOST, UPLOAD_DIRECTORY } = process.env;
 
 // creo app express
 const app = express();
+
+// cors
+app.use(cors());
 
 // uso middleware morgan
 app.use(morgan("dev"));
@@ -125,8 +124,6 @@ app.delete(
 // POST - /entries/:id/votes - vota una entrada
 app.post("/entries/:id/votes", isUser, entryExists, voteEntry);
 
-
-
 /*
  * ENDPOINT PRODUCTS
  */
@@ -147,7 +144,13 @@ app.put("/products/:id", isUser, productExists, canEdit, modProduct);
 app.delete("/products/:id", isUser, productExists, canEdit, deleteProduct);
 
 // POST - /products/:id/photos - añade una imagen a un producto
-app.post("/products/:id/photos", isUser, productExists, canEdit, addProductPhoto);
+app.post(
+  "/products/:id/photos",
+  isUser,
+  productExists,
+  canEdit,
+  addProductPhoto
+);
 
 // DELETE - /products/:id/photos/:photoID - borra una imagen de un producto
 app.delete(
@@ -169,8 +172,6 @@ app.get("/categories/:category_id/:product_id", productExists, getProduct);
 
 // POST - /products/:id/votes - vota un producto
 app.post("/products/:id/votes", isUser, productExists, voteProduct);
-
-
 
 /*
  * ENDPOINT USERS
@@ -203,39 +204,25 @@ app.post("/users/recoverpassword", recoverUserPassword);
 // usar ese código para cambiar la contraseña sin acceder previamente
 app.post("/users/resetpassword", resetUserPassword);
 
-
 /*
  * ENDPOINT COMPRA Y VENTA
  */
 
 // proponer compra
-app.post(
-  "/buy/:category_id/:product_id/proposal",
-  productExists,
-  isUser,
-  saleRequest
-);
+app.post("/buy/:id/proposal", productExists, isUser, saleRequest);
 
 // reserva de producto
 app.put(
-  "/products/:product_id/request/:sales_id",
+  "/buy/:idSales/:id",
   purchaseExists,
   reservedProduct
 );
 
 // producto vendido
-app.put(
-  "/myproducts/:product_id/:idSale/sold",
-  purchaseExists,
-  effectiveSale
-);
+app.put("/:product_id/:idSale/sold", purchaseExists, effectiveSale);
 
 // borrar solicitud de compra
-app.delete(
-  "/myproducts/:idSale/requests",
-  purchaseExists,
-  cancelRequest
-);
+app.delete("/myproducts/:idSale/requests", purchaseExists, cancelRequest);
 
 // listar reservas
 app.get("/bookings/:user_id", userExists, bookings);
@@ -250,7 +237,6 @@ app.post(
   userExists,
   valuePurchase
 );
-
 
 // middleware de error
 app.use((error, req, res, next) => {

@@ -6,16 +6,16 @@ const purchaseExists = async (req, res, next) => {
   try {
     connection = await getDB();
 
-    const { salesId } = req.params;
+    const { id } = req.params;
 
     const [result] = await connection.query(
       `
-            SELECT sales_id FROM sales WHERE idSale=?`,
-      [salesId]
+            SELECT idSale FROM sales WHERE product_id=?`,
+      [id]
     );
 
     if (result.length === 0) {
-      const error = new Error("No existe esta compra.");
+      const error = new Error("No existe compra con este id");
       error.httpStatus = 404;
       throw error;
     }
