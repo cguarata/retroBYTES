@@ -6,13 +6,13 @@ const listRequests = async (req, res, next) => {
   try {
     connection = await getDB();
 
-    const { user_id } = req.params;
+    const { id: user_id } = req.params;
 
     const [result] = await connection.query(
       `
-        SELECT sales.idSale, sales.userBuyer_id, sales.product_id, sales.reserveMessage, sales.effectiveSale, sales.sold, users.name AS Buyer
-        FROM sales INNER JOIN products ON (products.product_id = sales.product_id) INNER JOIN users ON (users.user_ide = sales.userBuyer_id) 
-        WHERE products.user_id=? AND products.sold=0`,
+        SELECT sales.idSale, sales.userBuyer_id, sales.product_id, sales.status, users.name AS Buyer
+        FROM sales INNER JOIN products ON (products.id = sales.idSale) INNER JOIN users ON (users.id = sales.userBuyer_id) 
+        WHERE sales.userBuyer_id=? AND products.sold=0`,
       [user_id]
     );
 

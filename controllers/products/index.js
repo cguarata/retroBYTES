@@ -6,8 +6,7 @@ const modProduct = require("./modProduct");
 const addProductPhoto = require("./addProductPhoto");
 const deleteProductPhoto = require("./deleteProductPhoto");
 const voteProduct = require("./voteProduct");
-const listCategories = require("./listCategories");
-const filterProduct = require("./filterProducts")
+const listCategories = require("./listCategories")
 
 module.exports = {
   listProducts,
@@ -19,5 +18,4 @@ module.exports = {
   deleteProductPhoto,
   voteProduct,
   listCategories,
-  filterProduct,
 };

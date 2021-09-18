@@ -53,7 +53,7 @@ async function sendMail({ to, subject, body }) {
     // https://www.npmjs.com/package/sendgrid
     const msg = {
       to,
-      from: process.env.SENDGRID_FROM, //poner el mismo correo que pusimos en FROM de sendgrid
+      from: process.env.SENDGRID_FROM, // correo usuario sendgrid
       subject,
       text: body,
       html: `

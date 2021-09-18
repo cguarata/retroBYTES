@@ -17,11 +17,11 @@ const newProduct = async (req, res, next) => {
     // valido los datos del body
     await validate(newProductSchema, req.body);
 
-    // if (!place) {
-    //   const error = new Error("El campo 'place' es obligatorio");
-    //   error.httpStatus = 400;
-    //   throw error;
-    // }
+    if (!place) {
+      const error = new Error("El campo 'place' es obligatorio");
+      error.httpStatus = 400;
+      throw error;
+    }
 
     const now = new Date();
 

@@ -1,19 +1,20 @@
 const getDB = require("../db");
 
-const purchaseExists = async (req, res, next) => {
+const requestExists = async (req, res, next) => {
   let connection;
 
   try {
     connection = await getDB();
 
-    const { id } = req.params;
+    const { id: idSale } = req.params;
 
     const [result] = await connection.query(
       `
-            SELECT idSale FROM sales WHERE product_id=?`,
-      [id]
+            SELECT idSale FROM sales  WHERE idSale=?
+            `,
+      [idSale]
     );
-
+ 
     if (result.length === 0) {
       const error = new Error("No existe compra con este id");
       error.httpStatus = 404;
@@ -27,4 +28,4 @@ const purchaseExists = async (req, res, next) => {
   }
 };
 
-module.exports = purchaseExists;
+module.exports = requestExists;

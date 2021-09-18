@@ -28,10 +28,19 @@ const saleRequest = async (req, res, next) => {
 
     const [createdSale] = await connection.query(
       `
-     INSERT INTO sales (userBuyer_id, product_id) 
-     VALUES (?, ?)`,
+     INSERT INTO sales (userBuyer_id, product_id, status) 
+     VALUES (?, ?, 1)`,
       [userBuyer_id, product_id]
     );
+    // actualizar estado sold - products
+    await connection.query(
+      `
+    UPDATE products 
+    SET reserved=true
+    WHERE id=?`,
+      [product_id]
+    );
+
 
     const { insertId } = createdSale;
     res.send({

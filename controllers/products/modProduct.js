@@ -10,7 +10,7 @@ const modProduct = async (req, res, next) => {
 
     const { id } = req.params;
 
-    // controlar el usuario que creó la entry, si no es el mismo del token o admin --> error
+    // controlar el usuario que creó el producto, si no es el mismo del token o admin --> error
     const [current] = await connection.query(
       `
       SELECT date

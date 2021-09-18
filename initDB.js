@@ -2,7 +2,34 @@ require("dotenv").config();
 const faker = require("faker");
 const getDB = require("./db");
 const { formatDateToDB } = require("./helpers");
-const { random } = require("lodash");
+const { random } = require("lodash")
+const fs = require("fs");
+const axios = require("axios");
+const uuid = require("uuid");
+
+async function downloadImage(url, filepath) {
+  const queryResponse = await axios({
+    url,
+    method: "GET",
+    responseType: "stream",
+  });
+
+  const imageUrl = queryResponse.data.responseUrl;
+
+  const response = await axios({
+    url: imageUrl,
+    method: "GET",
+    responseType: "stream",
+  });
+
+  return new Promise((resolve, reject) => {
+    response.data
+      .pipe(fs.createWriteStream(filepath))
+      .on("error", reject)
+      .once("close", () => resolve(filepath));
+  });
+}
+
 
 let connection;
 
@@ -28,7 +55,7 @@ async function main() {
        email VARCHAR(100) UNIQUE NOT NULL,
        password VARCHAR(512) NOT NULL,
        name VARCHAR(100),
-       avatar VARCHAR(50),
+       avatar VARCHAR(200),
        active BOOLEAN DEFAULT false,
        role ENUM("admin","normal") DEFAULT "normal" NOT NULL,
        registrationCode VARCHAR(100),
@@ -118,15 +145,22 @@ async function main() {
       const email = faker.internet.email();
       const password = faker.internet.password();
       const nombre = faker.name.findName();
+      const avatar = `${uuid.v4()}.jpg`;
+
+      const randomAvatarUrl = "https://source.unsplash.com/1600x900/?people";
+      const avatarPath = `./uploads/${avatar}`;
+      await downloadImage(randomAvatarUrl, avatarPath);
+
 
       await connection.query(`
-     INSERT INTO users(date,email,password,name,active)
+     INSERT INTO users(date,email,password,name,active,avatar)
      VALUES (
        "${formatDateToDB(new Date())}",
        "${email}",
        SHA2("${password}", 512),
        "${nombre}",
-       true
+       true,
+       "${avatar}"
      )
      `);
     }

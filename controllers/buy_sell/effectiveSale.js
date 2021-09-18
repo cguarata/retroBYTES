@@ -6,7 +6,7 @@ const effectiveSale = async (req, res, next) => {
       // creo la conexion al DB
       connection = await getDB();
 
-      const { product_id, idSale } = req.params;
+      const { id, idSale } = req.params;
     // Seleccionar el idSale
     const [sale] = await connection.query(`
         SELECT idSale FROM sales WHERE idSale=?`, 
@@ -23,7 +23,7 @@ const effectiveSale = async (req, res, next) => {
       // Seleccionar el anuncio que está reservado:
       const [reserved] = await connection.query(
         `
-        SELECT product_id FROM products WHERE product_id=? AND reserved=true`,
+        SELECT id FROM products WHERE id=? AND reserved=true`,
         [product_id]
       );
   
@@ -39,15 +39,15 @@ const effectiveSale = async (req, res, next) => {
       // Producto vendido:
       await connection.query(
         `
-        UPDATE products SET sold=true WHERE product_id=?`,
-        [product_id]
+        UPDATE products SET sold=true WHERE id=?`,
+        [id]
       );
   
       await connection.query(
         `
-      UPDATE sales SET sold=true WHERE product_id=?
+      UPDATE sales SET sold=true WHERE id=?
       `,
-        [product_id]
+        [id]
       );
   
       //

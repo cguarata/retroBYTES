@@ -15,7 +15,6 @@ const {
   deleteProductPhoto,
   voteProduct,
   listCategories,
-  filterProduct,
 } = require("./controllers/products");
 
 const {
@@ -32,34 +31,24 @@ const {
 
 // controladores compra-venta:
 const {
-  cancelRequest,
-  reservedProduct,
-  effectiveSale,
   saleRequest,
+  reservedProduct,
+  rejectRequest,
+  statusRequest,
+  // effectiveSale,
   bookings,
   listRequests,
   valuePurchase,
 } = require("./controllers/buy_sell");
 
-const {
-  listEntries,
-  newEntry,
-  getEntry,
-  modEntry,
-  deleteEntry,
-  addEntryPhoto,
-  deleteEntryPhoto,
-  voteEntry,
-} = require("./controllers/entries");
 
 // require de los MIDDLEWARES
-const entryExists = require("./middlewares/entryExists");
 const productExists = require("./middlewares/productExists");
 const isUser = require("./middlewares/isUser");
 const canEdit = require("./middlewares/canEdit");
-const canModify = require("./middlewares/canEdit");
+// const canModify = require("./middlewares/canEdit");
 const userExists = require("./middlewares/userExists");
-const purchaseExists = require("./middlewares/purchaseExists");
+const requestExists = require("./middlewares/requestExists");
 
 const { PORT, HOST, UPLOAD_DIRECTORY } = process.env;
 
@@ -90,39 +79,7 @@ app.get("/", (req, res, next) => {
   });
 });
 
-/*
- * ENDPOINT ENTRIES
- */
 
-// GET - /entries - JSON con lista todas las entradas
-app.get("/entries", listEntries);
-
-// GET - /entries/:id - JSON que muestra información de una entrada
-app.get("/entries/:id", entryExists, getEntry);
-
-// POST - /entries - crea una entrada
-app.post("/entries", isUser, newEntry);
-
-// PUT - /entries/:id - edita el lugar o descripción de una entrada
-app.put("/entries/:id", isUser, entryExists, canModify, modEntry);
-
-// DELETE - /entries/:id - borra una entrada
-app.delete("/entries/:id", isUser, entryExists, canModify, deleteEntry);
-
-// POST - /entries/:id/photos - añade una imagen a una entrada
-app.post("/entries/:id/photos", isUser, entryExists, canModify, addEntryPhoto);
-
-// DELETE - /entries/:id/photos/:photoID - borra una imagen de una entrada
-app.delete(
-  "/entries/:id/photos/:photoID",
-  isUser,
-  entryExists,
-  canModify,
-  deleteEntryPhoto
-);
-
-// POST - /entries/:id/votes - vota una entrada
-app.post("/entries/:id/votes", isUser, entryExists, voteEntry);
 
 /*
  * ENDPOINT PRODUCTS
@@ -162,7 +119,7 @@ app.delete(
 );
 
 //GET para hacer una búsqueda con query string
-app.get("/search", filterProduct);
+app.get("/search", listProducts);
 
 // GET -/categories : devuelve elementos de categoría
 app.get("/categories", listCategories);
@@ -211,36 +168,52 @@ app.post("/users/resetpassword", resetUserPassword);
 // proponer compra
 app.post("/buy/:id/proposal", productExists, isUser, saleRequest);
 
-// reserva de producto
+// reserva de producto y enviar datos de entrega
 app.put(
-  "/buy/:idSales/:id",
-  purchaseExists,
+  "/:id/reserve/:idSale",
+  isUser,
+  productExists,
   reservedProduct
-);
+  );
+  
+// rechazar propuesta de compra
+app.delete(
+  "/:id/reject/:idSale", 
+  isUser,
+  productExists, 
+  requestExists,
+  rejectRequest
+  );
+  
+  // listar solicitudes compra
+  app.get("/requests/:id", userExists, listRequests);
 
-// producto vendido
-app.put("/:product_id/:idSale/sold", purchaseExists, effectiveSale);
+// listar reservas de un usuario
+app.get(
+  "/bookings/:user_id", 
+  isUser, 
+  bookings);
 
-// borrar solicitud de compra
-app.delete("/myproducts/:idSale/requests", purchaseExists, cancelRequest);
-
-// listar reservas
-app.get("/bookings/:user_id", userExists, bookings);
-
-// listar solicitudes compra
-app.get("/requests/:user_id", userExists, listRequests);
-
+  // status de reserva
+  app.get(
+  "/:id/status/:idSale", 
+  isUser,
+  productExists,
+  statusRequest
+  );
+  
 // valorar compra
 app.post(
   "/ranking_user/:user_id/:idSale",
-  purchaseExists,
-  userExists,
+  isUser,
+  requestExists,
   valuePurchase
-);
+  );
+  
 
-// middleware de error
-app.use((error, req, res, next) => {
-  res.status(error.httpStatus || 500).send({
+  // middleware de error
+  app.use((error, req, res, next) => {
+    res.status(error.httpStatus || 500).send({
     status: "error",
     message: error.message,
   });

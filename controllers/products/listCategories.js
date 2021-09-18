@@ -6,7 +6,7 @@ const listCategories = async (req, res, next) => {
   
       // Leer las categorías de la Base de Datos:
       const [results] = await connection.query(`
-          SELECT category_id, name FROM categories;
+          SELECT products.category, products.name FROM products;
           `);
   
       // console.log(results);
