@@ -10,6 +10,9 @@ const Navbar= () => {
                 <Link to="/" className="retrobytes-logo">
                     <h1>Logo</h1>
                 </Link>
+                <input type="text" className="search-bar" placeholder="Encuentra lo que quieres comprar...">
+                </input>
+                <i class="fas fa-search"></i>
                 <FaBars className="menu-icon"/>
                 <div className="nav-menu">
                     <Link to="/chat" className="nav-link">

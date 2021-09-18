@@ -1,10 +1,11 @@
 import React from 'react'
+import { Slideshow } from '../componentes/slideshow/slideshow'
 
 const Home = () => {
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh'}}>
-            <h1>Home</h1>
-        </div>
+        <main className="home-container">
+            <Slideshow></Slideshow>
+        </main>
     )
 }
 
