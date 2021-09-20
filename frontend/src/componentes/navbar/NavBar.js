@@ -12,7 +12,9 @@ const Navbar= () => {
                 </Link>
                 <input type="text" className="search-bar" placeholder="Encuentra lo que quieres comprar...">
                 </input>
+                <div className="search-icon-nav">
                 <i class="fas fa-search"></i>
+                </div>
                 <FaBars className="menu-icon"/>
                 <div className="nav-menu">
                     <Link to="/chat" className="nav-link">

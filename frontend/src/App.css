@@ -63,7 +63,7 @@ body {
   border-radius: 10px 0 0 10px;
   outline: none;
 }
-.fa-search {
+.search-icon-nav {
   background-color: #fff;
   margin: 20px;
   margin-left: 0;
@@ -144,6 +144,63 @@ body {
   transition: 0.3s ease all;
   right: 0;
 }
+.products-container {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.product-container {
+  flex: 1;
+  margin: 5px;
+  min-width: 280px;
+  height: 350px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  background-color: #f5fbfd;
+  position: relative;
+}
+.product-image {
+  height: 75%;
+  z-index: 2;
+  position: absolute;
+  top: 30px;
+}
+.circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  top: 75px;
+}
+.product-info {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  transition: all 0.5 ease;
+  cursor: pointer;
+}
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  transition: 0.3s ease all;
+}
 
 @media screen and (max-width: 768px) {
   .menu-icon {
@@ -176,4 +233,11 @@ body {
 }
 .control-izq:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+.icon:hover {
+  background-color: #e9f5f5;
+  transform: scale(1.2);
+}
+.product-info:hover {
+  opacity: 1;
 }
