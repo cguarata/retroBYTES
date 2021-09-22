@@ -33,7 +33,7 @@ const preview =()=>{
         const index = slideshow.current.children.length - 1;
         const ultimoElemento = slideshow.current.children[index];
         slideshow.current.insertBefore(ultimoElemento, slideshow.current.firstChild)
-     
+        
         slideshow.current.style.transition='none'
         const slideSize = slideshow.current.children[0].offsetWidth;
         slideshow.current.style.transform = `translateX(-${slideSize}px)`
