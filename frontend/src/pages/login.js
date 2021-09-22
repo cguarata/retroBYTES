@@ -18,17 +18,18 @@ return (
     <>
     <div className="center">
       <h1>Login</h1>
-      <form method="post">
+      <form>
         <div class="txt_field">
         <input
                 name="username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-            />          <span></span>
+            />          
+          <span></span>
           <label>Username</label>
         </div>
-        <div class="txt_field">
+        <div className="txt_field">
         <input
                 name="password"
                 type="password"
@@ -39,7 +40,7 @@ return (
           <label>Password</label>
         </div>
         <input type="submit" value="Login"/>
-        <div class="signup_link">       
+        <div className="signup_link">       
           Not a member? 
           <Link to="/register">
             <input

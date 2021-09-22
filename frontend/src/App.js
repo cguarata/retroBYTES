@@ -8,6 +8,7 @@ import Notificaciones from './pages/notificaciones';
 import Compras from './pages/compras';
 import Perfil from './pages/perfil';
 import Login from './pages/login';
+import { Register } from './pages/register';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/compras' component={Compras} />
         <Route path='/perfil' component={Perfil} />
         <Route path='/login' component={Login} />
+        <Route path='/register' component={Register} />
       </Switch>
     </Router>
   );
