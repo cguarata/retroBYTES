@@ -29,9 +29,9 @@ const Navbar= () => {
                         <i class="fas fa-shopping-cart"></i>
                             Compras
                     </Link>
-                    <Link to="/perfil" className="nav-button">
+                    <Link to="/login" className="nav-button">
                         <i class="fas fa-user"></i>
-                            Perfil
+                            Log In
                     </Link>
                 </div>
             </nav>

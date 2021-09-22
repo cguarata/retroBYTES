@@ -7,6 +7,7 @@ import Chat from './pages/chat';
 import Notificaciones from './pages/notificaciones';
 import Compras from './pages/compras';
 import Perfil from './pages/perfil';
+import Login from './pages/login';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path='/notificaciones' component={Notificaciones} />
         <Route path='/compras' component={Compras} />
         <Route path='/perfil' component={Perfil} />
+        <Route path='/login' component={Login} />
       </Switch>
     </Router>
   );
