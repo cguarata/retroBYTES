@@ -1,10 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { AddProduct } from '../componentes/products/addProduct'
 
 const Perfil = () => {
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90vh'}}>
-            <h1>Perfil</h1>
-        </div>
+       <>
+            <AddProduct></AddProduct>
+       </>
     )
 }
 

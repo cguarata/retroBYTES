@@ -3,25 +3,34 @@ import { useContext, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
     
 const Login = (props) => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const handleLogin = async (e) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = async (e) => {
     e.preventDefault();
     const requestBody = {
-        username,
-        password,
+      username,
+      password,
     };
-
-};
+    const res = await fetch("", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+    
+  };
 
 return (
     <>
     <div className="center">
       <h1>Login</h1>
-      <form>
+      <form onSubmit={handleLogin}>
         <div class="txt_field">
         <input
+                id="username"
                 name="username"
+                required="required"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -31,7 +40,9 @@ return (
         </div>
         <div className="txt_field">
         <input
+                id="password"
                 name="password"
+                required="required"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -41,9 +52,9 @@ return (
         </div>
         <input type="submit" value="Login"/>
         <div className="signup_link">       
-          Not a member? 
-          <Link to="/register">
-            <input
+          ¿No estas Registrado?
+        <Link to="/register">
+            <input 
             type="submit"
             value="Registrate"
             ></input>

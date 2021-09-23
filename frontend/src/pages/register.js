@@ -29,7 +29,7 @@ export const Register = (props) => {
         <div className="center">
           <h1>Registro</h1>
           <form onSubmit={handleRegister}>
-          <div class="txt_field">
+            <div class="txt_field">
               <input
                 id="user-fullname"
                 name="user-fullname"
@@ -40,7 +40,7 @@ export const Register = (props) => {
                 />
                 <span></span>
                 <label>Nombre</label>
-              </div>
+            </div>
               <div class="txt_field">
               <input
                 id="username"
