@@ -36,11 +36,10 @@ const {
   rejectRequest,
   statusRequest,
   // effectiveSale,
-  bookings,
-  listRequests,
+  userSellerBookings,
+  userBuyerBookings,
   valuePurchase,
 } = require("./controllers/buy_sell");
-
 
 // require de los MIDDLEWARES
 const productExists = require("./middlewares/productExists");
@@ -78,8 +77,6 @@ app.get("/", (req, res, next) => {
     message: "Home page",
   });
 });
-
-
 
 /*
  * ENDPOINT PRODUCTS
@@ -169,51 +166,27 @@ app.post("/users/resetpassword", resetUserPassword);
 app.post("/buy/:id/proposal", productExists, isUser, saleRequest);
 
 // reserva de producto y enviar datos de entrega
-app.put(
-  "/:id/reserve/:idSale",
-  isUser,
-  productExists,
-  reservedProduct
-  );
-  
+app.put("/reserve/:idSale", isUser, reservedProduct);
+
 // rechazar propuesta de compra
-app.delete(
-  "/:id/reject/:idSale", 
-  isUser,
-  productExists, 
-  requestExists,
-  rejectRequest
-  );
-  
-  // listar solicitudes compra
-  app.get("/requests/:id", userExists, listRequests);
+app.put("/reject/:idSale", isUser, requestExists, rejectRequest);
 
-// listar reservas de un usuario
-app.get(
-  "/bookings/:user_id", 
-  isUser, 
-  bookings);
+// listar reservas para el vendedor
+app.get("/userSeller/bookings", isUser, userSellerBookings);
 
-  // status de reserva
-  app.get(
-  "/:id/status/:idSale", 
-  isUser,
-  productExists,
-  statusRequest
-  );
-  
+// listar reservas para el comprador
+app.get("/userBuyer/bookings", isUser, userBuyerBookings);
+
+// status de reserva
+app.get("/:id/status/:idSale", isUser, productExists, statusRequest);
+
 // valorar compra
-app.post(
-  "/ranking_user/:user_id/:idSale",
-  isUser,
-  requestExists,
-  valuePurchase
-  );
-  
+app.post("/ranking_user/:idSale", isUser, requestExists, valuePurchase);
 
-  // middleware de error
-  app.use((error, req, res, next) => {
-    res.status(error.httpStatus || 500).send({
+// middleware de error
+app.use((error, req, res, next) => {
+  console.log(error)
+  res.status(error.httpStatus || 500).send({
     status: "error",
     message: error.message,
   });

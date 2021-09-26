@@ -18,7 +18,9 @@ const addProductPhoto = async (req, res, next) => {
 
     //console.log("Current foto:", currentPhoto);
     if (currentPhoto.length >= 3) {
-      const error = new Error("El producto ya tiene 3 fotos, el máximo permitido");
+      const error = new Error(
+        "El producto ya tiene 3 fotos, el máximo permitido"
+      );
       error.httpStatus = 403;
       throw error;
     }

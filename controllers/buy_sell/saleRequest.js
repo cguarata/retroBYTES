@@ -10,6 +10,7 @@ const saleRequest = async (req, res, next) => {
     const { id: product_id } = req.params;
     const userBuyer_id = req.userAuth.id;
 
+    console.log(userBuyer_id);
     // se crea la compra:
     const [results] = await connection.query(
       `
@@ -28,19 +29,18 @@ const saleRequest = async (req, res, next) => {
 
     const [createdSale] = await connection.query(
       `
-     INSERT INTO sales (userBuyer_id, product_id, status) 
-     VALUES (?, ?, 1)`,
+     INSERT INTO sales (userBuyer_id, product_id) 
+     VALUES (?, ? )`,
       [userBuyer_id, product_id]
     );
-    // actualizar estado sold - products
+    // confirmar estado para reservar
     await connection.query(
       `
     UPDATE products 
-    SET reserved=true
+    SET reserved=false
     WHERE id=?`,
       [product_id]
     );
-
 
     const { insertId } = createdSale;
     res.send({

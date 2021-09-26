@@ -36,7 +36,7 @@ const loginUser = async (req, res, next) => {
 
     // compruebo si el usuario está activo
     if (!user[0].active) {
-      const error = new Error("El usuario no etsá activo. Comprueba tu email.");
+      const error = new Error("El usuario no está activo. Comprueba tu email.");
       error.httpStatus = 401;
       throw error;
     }

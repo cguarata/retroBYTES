@@ -27,7 +27,9 @@ const rejectRequest = async (req, res, next) => {
 
     await connection.query(
       `
-        DELETE FROM sales WHERE idSale=?`,
+      UPDATE sales 
+      SET status=false
+      WHERE idSale=?`,
       [idSale]
     );
 
