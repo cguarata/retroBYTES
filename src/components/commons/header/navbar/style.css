@@ -1,0 +1,36 @@
+
+
+
+
+@font-face {
+  font-family: MineCrafter20;
+  src: url('../../../../fonts/mineCrafter-20.ttf'),url('../../../../fonts/MineCrafter-20.woff'), url('../../../../fonts/MineCrafter-20.woff2');
+};
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'KatahdinRound-Bold', 'MineCrafter-20', 'code'
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* unvisited link
+a:link {
+    color: red;
+  }
+  
+  /* visited link */
+  /* a:visited {
+    color: green;
+  } */
+  
+  /* mouse over link */
+  /* a:hover {
+    color: hotpink;
+  }
+   */
+  /* selected link */
+  /* a:active {
+    color: blue;
+  } */ 

@@ -1,0 +1,64 @@
+li {
+    font-size: 1.5rem;
+    font-family: 'KatahdinRound-Bold';
+    text-transform: uppercase;
+    padding: 10px;
+    opacity: 0.5;
+
+
+}
+
+ul li a, ul li span {  
+    display: block;
+    color: rgb(15, 15, 15);
+
+} 
+
+ul li span {     
+    height:30px;/* height and width of icon  */     
+    width:30px;/*   "  " */
+    /* background:  url(oneSingleImageSprite.png) no-repeat 0; */
+    margin:auto; 
+    padding-bottom: 2rem;     
+    /* background-color:yellow;  */
+} 
+
+
+ul li {     
+    float:left;     
+    /* border-right:  1px solid #999;  */
+} 
+
+ul li a {     
+    text-decoration:none;     
+    padding:0  15px; 
+} 
+
+ul li.first { 
+    /* border-left: 1px solid #999;  */
+} 
+
+ul li a:hover {  
+    background-color: rgb(206, 206, 206); 
+} 
+
+ul li a:active { 
+    /* background-color: #3f46b;  */
+
+}  
+
+ul li.password   {     
+    background-position: 0 -370px;     
+    opacity: 1 !important;
+}
+
+/* then the classes for each button... */ 
+ul li.dashboard a:hover span  {     
+    background-position: 0 -170px;     
+    /* background:yellowgreen;  */
+} 
+
+ul li.password  a:hover span {     
+    background-position: 0 -370px;     
+    /* background:blue;  */
+}

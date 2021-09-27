@@ -1,0 +1,40 @@
+@font-face {
+  font-family: KatahdinRound-Bold;
+  src: url('./fonts/KatahdinRound-Bold.ttf'), url('./fonts/KatahdinRound-Bold.woff'), url('./fonts/KatahdinRound-Bold.woff2');
+  display: swap;
+};
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap');
+
+@font-face {
+  font-family: MineCrafter-20;
+  src: url('./fonts/mineCrafter-20.ttf'),url('./fonts/MineCrafter-20.woff'), url('./fonts/MineCrafter-20.woff2');
+  display: swap;
+};
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'KatahdinRound-Bold', 'MineCrafter-20', 
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+MineCrafter-20 {
+  font-family: Minecrafter20, Ubuntu, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+KatahdinRound-Bold {
+  font-family: KatahdinRound-Bold, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+
