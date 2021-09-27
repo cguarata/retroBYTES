@@ -9,6 +9,8 @@ import Compras from './pages/compras';
 import Perfil from './pages/perfil';
 import Login from './pages/login';
 import { Register } from './pages/register';
+import NewProduct from './pages/newProduct';
+import { ProfileUpdate } from './pages/profileUpdate';
 
 function App() {
   return (
@@ -20,8 +22,10 @@ function App() {
         <Route path='/notificaciones' component={Notificaciones} />
         <Route path='/compras' component={Compras} />
         <Route path='/perfil' component={Perfil} />
+        <Route path='/producto-nuevo' component={NewProduct} />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
+        <Route path='/actualizar-datos-usuario' component={ProfileUpdate} />
       </Switch>
     </Router>
   );

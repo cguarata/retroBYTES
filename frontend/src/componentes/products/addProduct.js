@@ -22,7 +22,7 @@ export const AddProduct = (props) => {
   return (
     <>
         <div className="center">
-        <h1>Nuevo Producto</h1>
+        <h1>Agrega un nuevo Producto</h1>
           <form onSubmit={handleCreateProduct}>
             <div class="txt_field">
                 <input
