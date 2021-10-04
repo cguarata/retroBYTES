@@ -8,7 +8,7 @@ const valuePurchase = async (req, res, next) => {
     connection = await getDB();
 
     // Recojo los parámetros
-    const { userBuyer_id, idSale } = req.params;
+    const { idSale } = req.params;
     const { vote } = req.body;
 
     // compruebo que el valor de votos esté en rango
@@ -18,37 +18,33 @@ const valuePurchase = async (req, res, next) => {
       throw error;
     }
 
-    // Compruebo el usuario no es el creador del producto
-    const [current] = await connection.query(
-      `
-      SELECT userSeller_id 
-      FROM user_ranking
-      WHERE userBuyer_id=?
-    `,
-      [userBuyer_id]
-    );
-
-    if (current[0] === req.userAuth.id) {
-      const error = new Error("No puedes votarte a ti mismo");
-      error.httpStatus = 403;
-      throw error;
-    }
-
     // Compruebo que el usuario no votara anteriormente la compra
-    const [existsRanking] = await connection.query(
+    const [voteSale] = await connection.query(
       `
-      SELECT id
+      SELECT vote
       FROM user_ranking
       WHERE idSale=?
     `,
       [idSale]
     );
 
-    if (existsRanking.length > 0) {
+    if (voteSale.length > 0) {
       const error = new Error("Ya valoraste esta compra anteriormente");
       error.httpStatus = 403;
       throw error;
     }
+
+    const [userSellerResults] = await connection.query(
+      `
+        SELECT p.user_id 
+        FROM products p
+        LEFT JOIN sales s ON (p.id = s.product_id)
+        WHERE s.idSale =?
+      `,
+      [idSale]
+    );
+
+    console.log(userSellerResults);
 
     const now = new Date();
 
@@ -58,7 +54,7 @@ const valuePurchase = async (req, res, next) => {
       INSERT INTO user_ranking(date_vote, idSale, vote, userSeller_id)
       VALUES(?,?,?,?)
     `,
-      [formatDateToDB(now), idSale, vote, req.userAuth.id]
+      [formatDateToDB(now), idSale, vote, userSellerResults[0].user_id]
     );
 
     res.send({

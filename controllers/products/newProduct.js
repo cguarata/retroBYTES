@@ -9,7 +9,8 @@ const newProduct = async (req, res, next) => {
     connection = await getDB();
 
     // saco los campos del body
-    const { name, category, description, price, place, manufact_date } = req.body;
+    const { name, category, description, price, place, manufact_date } =
+      req.body;
 
     //console.log(place, description);
     //console.log(req);
@@ -31,7 +32,16 @@ const newProduct = async (req, res, next) => {
       INSERT INTO products (date, name, category, description, price, place, manufact_date, user_id)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [formatDateToDB(now), name, category, description, price, place, manufact_date, req.userAuth.id]
+      [
+        formatDateToDB(now),
+        name,
+        category,
+        description,
+        price,
+        place,
+        manufact_date,
+        req.userAuth.id,
+      ]
     );
 
     // saco el id de la fila insertada

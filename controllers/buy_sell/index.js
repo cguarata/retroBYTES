@@ -4,8 +4,8 @@ const rejectRequest = require("./rejectRequest.js");
 const statusRequest = require("./statusRequest")
 
 const effectiveSale = require("./effectiveSale.js");
-const bookings = require("./bookings.js");
-const listRequests = require("./listRequest.js");
+const userBuyerBookings = require("./userBuyerBookings.js");
+const userSellerBookings = require("./userSellerBookings.js");
 const valuePurchase = require("./valuePurchase.js");
 
 
@@ -16,7 +16,7 @@ module.exports = {
   statusRequest,
 
   effectiveSale,
-  bookings,
-  listRequests,
+  userBuyerBookings,
+  userSellerBookings,
   valuePurchase
 };

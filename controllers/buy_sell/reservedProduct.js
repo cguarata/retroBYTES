@@ -49,11 +49,11 @@ const reservedProduct = async (req, res, next) => {
     await connection.query(
       `
     UPDATE sales 
-    SET placeDelivery=?, timeDelivery=?, status=2
+    SET placeDelivery=?, timeDelivery=?, status=true
     WHERE idSale=?`,
       [placeDelivery, timeDelivery, idSale]
     );
-    
+
     // update tabla productos status (vendido)
     await connection.query(
       `
@@ -62,16 +62,6 @@ const reservedProduct = async (req, res, next) => {
     WHERE id=?`,
       [product_id]
     );
-
-    // update tabla sales
-    // await connection.query(
-    //   `
-    // UPDATE sales 
-    // SET status=1
-    // WHERE id=?`,
-    //   [product_id]
-    // );
-
 
     res.send({
       status: "ok",

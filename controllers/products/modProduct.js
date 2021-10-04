@@ -60,7 +60,7 @@ const modProduct = async (req, res, next) => {
         dateMod,
         name,
         description,
-        price
+        price,
       },
     });
   } catch (error) {

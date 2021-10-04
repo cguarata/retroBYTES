@@ -6,7 +6,7 @@ const requestExists = async (req, res, next) => {
   try {
     connection = await getDB();
 
-    const { id: idSale } = req.params;
+    const { idSale } = req.params;
 
     const [result] = await connection.query(
       `
@@ -14,7 +14,7 @@ const requestExists = async (req, res, next) => {
             `,
       [idSale]
     );
- 
+
     if (result.length === 0) {
       const error = new Error("No existe compra con este id");
       error.httpStatus = 404;

@@ -115,10 +115,12 @@ async function main() {
     CREATE TABLE user_ranking(
       id INT PRIMARY KEY AUTO_INCREMENT,
       date_vote DATETIME,
-      userSeller_id INT NOT NULL,
-      FOREIGN KEY (userSeller_id) REFERENCES users(id),
+      user_id INT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id),
       idSale INT NOT NULL,
       FOREIGN KEY (idSale) REFERENCES sales(idSale),
+      product_id INT NOT NULL,   
+      FOREIGN KEY (product_id) REFERENCES products(id),
       vote TINYINT DEFAULT 0
       
     )
